@@ -6,7 +6,7 @@ from datetime import datetime
 
 from data.chats_mgmt import is_new_chat, add_chat
 from data.users_mgmt import get_study_data, update_user_study_data, is_studies
-from shedule.parser import get_shedule
+from schedule.parser import get_shedule
 from . import info
 from service.logger import LOGGER
 from service.settings import week_day_names
