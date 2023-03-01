@@ -1,7 +1,16 @@
+# virsual enviroment
 /venv
+
+# folder with schedule tables
 **/tables/
+
 **/__pycache__/
+
+# bot token
 bot_info.py
+
+# user data
 data.json
+
 logs.txt
 todo.todo
