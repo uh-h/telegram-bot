@@ -1,0 +1,7 @@
+/venv
+**/tables/
+**/__pycache__/
+bot_info.py
+data.json
+logs.txt
+todo.todo
