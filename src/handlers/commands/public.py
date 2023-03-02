@@ -14,7 +14,7 @@ from phrases.phrases import START_MSG
 
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:  
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Updates the chat data and sends the starting information.
     """          
@@ -53,6 +53,19 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE, command_name:
     
     await update.effective_chat.send_message(msg + instruction)
     
+
+
+async def add_study_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+    user = update.effective_message.from_user
+
+    args = context.args
+
+    if len(args) == 0:
+        await help(update, context, '/' + add_study_info.__name__)
+        return
+    
+    update_user_study_data(chat_id, user.id, args)
 
 
 
