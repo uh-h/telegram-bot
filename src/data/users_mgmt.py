@@ -58,8 +58,12 @@ def get_study_data(chat_id: int, user: User) -> dict:
 
 
     
-def update_user_study_data(chat_id: int, user: User, empty_data: list) -> None:
-    pass
+def update_user_study_data(chat_id: int, user: User, study_data: list) -> None:
+    keys = user_study_data_template.keys()
+    
+    for i in range(len(study_data)):
+        data.update_user_data(chat_id, user.id, keys[i], list[i])
+        
 
 
 
