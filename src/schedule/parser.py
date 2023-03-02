@@ -37,7 +37,16 @@ def update_shedule(university_name: str, URL: str, *args) -> None:
 
 
 
-def get_shedule(study_data: list, week_type: int, day: int):
+def get_shedule(study_data: list[str, int, str, str], week_type: int, day: int):
+    """
+    Study_data structure:\n
+    {
+        'university': None,
+        'course': None,
+        'faculty': None,
+        'group': None,
+    }
+    """
     print("Парсим xlsx")
     pass
 
