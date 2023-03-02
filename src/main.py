@@ -5,8 +5,6 @@ from handlers.commands import private, public
 from handlers import messages as msg_handler
 from data import data
 
-from schedule.parser import get_week_type
-
 
 
 def main():
@@ -17,7 +15,7 @@ def main():
 
         CommandHandler("start", public.start),
         CommandHandler("help", public.help),
-        CommandHandler("shedule", public.shedule),
+        CommandHandler("schedule", public.schedule),
         CommandHandler("remind", public.remind),
         
         MessageHandler(filters.ALL, msg_handler.add_new_user),
@@ -25,7 +23,6 @@ def main():
 
     app.add_handlers(handlers)
     data.deserialize()
-    get_week_type()
     app.run_polling()
 
 
