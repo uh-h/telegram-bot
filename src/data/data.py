@@ -82,3 +82,12 @@ def get_user(chat_id: int, user_id: int) -> dict:
     
     LOGGER.critical(f"could not found the user in chat, chat_id='{chat_id}', user_id={user_id}")
     return None
+
+
+
+def update_user_data(chat_id: int, user_id: int, key, value) -> None:
+    chat_pos, users = get_users(chat_id)
+
+    for user in users:
+        if user.get('id') == user_id:
+            user.update({key: value})
