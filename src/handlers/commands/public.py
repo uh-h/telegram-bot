@@ -6,11 +6,10 @@ from datetime import datetime
 
 from data.chats_mgmt import is_new_chat, add_chat
 from data.users_mgmt import get_study_data, update_user_study_data, is_studies
-from schedule.parser import get_shedule
+from schedule.parser import get_schedule
 from . import info
 from service.logger import LOGGER
 from service.settings import week_day_names
-from service import settings
 from phrases.phrases import START_MSG
 
 
@@ -57,19 +56,20 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE, command_name:
 
 
 
-async def shedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def schedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     args = context.args
 
     if len(args) == 0:
-        await help(update, context, '/' + shedule.__name__)
+        await help(update, context, '/' + schedule.__name__)
         return
     
-    # автоопределение по парсеру
-    # 0 = upper, 1 = bottom
-    week = settings.week_type
+
+    week_num = datetime.today().isocalendar()[1]
+    week = week_num % 2 # 0 = bottom, 1 = upper
+
     day_str = args[0]
     dt = datetime.now()
-    today = dt.weekday()  
+    today = dt.weekday()
     day_num = today
 
     if day_str not in week_day_names.keys():
@@ -77,49 +77,37 @@ async def shedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
 
     for day_name in week_day_names.keys():
-        if day_str == day_name:
-            if len(day_str) > 2:
-                day_num += week_day_names.get(day_name) % 6
-            else:
-                day_num = week_day_names.get(day_name)
+        if day_str != day_name:
+            continue
 
-            break
+        if len(day_str) > 2:
+            day_num += week_day_names.get(day_name) % 6
+        else:
+            day_num = week_day_names.get(day_name)
 
-    # НЕ РАБОТАЕТ
+        break
+
+    
     if day_num < today:
         week += 1 % 2
     
     user = update.effective_message.from_user
     chat_id = update.effective_message.chat_id  
 
-    # 1. Проверить аргументы. Не хватает или не сопадают с допустимыми - выдать справку
-    # 2. Проверить, заполнена ли информация об учебном учреждении
-    #       Нужно попробовать сделать кнопками. 
-    #           Если кнопками может пользоваться только отправитель, то ок, нет - стандартный вариант
-    # 3. Выдать пользователю информацию
-    #       Если не удалось найти университет / факультет / курс / группу - 
-    #           уведомить юзера, что не удалось найти расписание для него,
-    #           вывести его данные об учебе и предложить переписать их
-    #
-    # Если день недели меньше текущего, то он будет на следующей неделе, следовательно, нужно изменить week_type
-    #
-
     if is_studies(chat_id, user) == False:
-        await update.effective_chat.send_message("Вы не учитесь!")
-        # КНОПКИ
-        pass
+        await update.effective_chat.send_message(
+            "Сначала нужно указать данные о вас\nИспоьзуте комманду /add_study_info"
+        )
+        return
 
     study_data = get_study_data(chat_id, user)
-    shedule_ = get_shedule(study_data, week, day_num)
+    shedule_ = get_schedule(study_data, week, day_num)
 
     if shedule_ == None: 
         await update.message.reply_text("Не удалось получить расписание\nПроверьте ваши данные:\n\n" + str(study_data))
-        await update.effective_chat.send_message("Хотите обновить информацию?")
-        # КОНОПКИ!
-        if True:
-            update_user_study_data()
+        await update.effective_chat.send_message("Если хотите обновить данные, используйте комманду /add_study_info")
+        return
 
-    await update.effective_chat.send_message("Эта команда находится в разработке")
 
 
 
