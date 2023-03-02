@@ -85,8 +85,8 @@ def get_user(chat_id: int, user_id: int) -> dict:
 
 
 
-def update_user_data(chat_id: int, user_id: int, key, value) -> None:
-    chat_pos, users = get_users(chat_id)
+def update_user_data(chat_id: int, user_id: int, key: str, value) -> None:
+    users = get_users(chat_id)
 
     for user in users:
         if user.get('id') == user_id:
