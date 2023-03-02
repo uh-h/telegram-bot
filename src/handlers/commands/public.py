@@ -65,7 +65,7 @@ async def add_study_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await help(update, context, '/' + add_study_info.__name__)
         return
     
-    update_user_study_data(chat_id, user.id, args)
+    update_user_study_data(chat_id, user, args)
 
 
 
