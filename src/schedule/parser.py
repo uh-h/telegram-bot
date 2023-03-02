@@ -5,7 +5,7 @@ import os
 from service.logger import LOGGER
 
 
-def update_shedule(university_name: str, URL: str, *args) -> None:
+def update_schedule(university_name: str, URL: str, *args) -> None:
     resp = requests.get(URL)
 
     soup = BS(resp.text, features='html.parser')
@@ -37,7 +37,7 @@ def update_shedule(university_name: str, URL: str, *args) -> None:
 
 
 
-def get_shedule(study_data: list[str, int, str, str], week_type: int, day: int):
+def get_schedule(study_data: list[str, int, str, str], week_type: int, day: int):
     """
     Study_data structure:\n
     {
