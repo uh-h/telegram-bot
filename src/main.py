@@ -15,6 +15,7 @@ def main():
 
         CommandHandler("start", public.start),
         CommandHandler("help", public.help),
+        CommandHandler("add_study_info", public.add_study_info),
         CommandHandler("schedule", public.schedule),
         CommandHandler("remind", public.remind),
         
